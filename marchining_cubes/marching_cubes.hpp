@@ -43,7 +43,7 @@ struct ImplicitFunction{
             for(int j=0;j<ny;++j){
                 values[i][j].resize(nz);
                 for(int k=0;k<nz;k++){
-                    values[i][j][k] = data[i*nx*ny + j*nx + k];
+                    values[i][j][k] = data[i*ny*nz + j*nz + k];
                 }
             }
         }
