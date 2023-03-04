@@ -7,8 +7,6 @@
 
 #include "ioVTK.hpp"
 
-
-
 int inputVTK(int &num_cells,std::vector<int> &nums,std::vector<double> &dists,std::vector<double> &v,std::string InputFlieName){
     std::ifstream Inputfile(InputFlieName);
     if (!Inputfile.is_open()) {
@@ -18,28 +16,38 @@ int inputVTK(int &num_cells,std::vector<int> &nums,std::vector<double> &dists,st
     }
     std::string line;
     std::string word;
+    for(int i=0;i<4;++i)std::getline(Inputfile,line);//4行は無視
+    
     std::getline(Inputfile,line);
     std::stringstream ss_nums{line};
+    getline(ss_nums,word,' ');
     for(int i=0;i<3;++i){
         getline(ss_nums,word,' ');
         nums.push_back(std::stoi(word));
     }
+    
+    std::getline(Inputfile,line);//ORIGIN無視
+    
     std::getline(Inputfile,line);
     std::stringstream ss_dists{line};
+    getline(ss_dists,word,' ');
     for(int i=0;i<3;++i){
         getline(ss_dists,word,' ');
         dists.push_back(std::stod(word));
     }
+    
     std::getline(Inputfile,line);
     std::stringstream ss_num{line};
-    getline(ss_num,word);
+    getline(ss_num,word,' ');
+    getline(ss_num,word,' ');
     num_cells = std::stoi(word);
+    for(int i=0;i<2;++i)std::getline(Inputfile,line);//2行は無視
+    
     while(getline(Inputfile,line)){
         std::stringstream ss{line};
         getline(ss,word);
         v.push_back(std::stod(word));
     }
-    //for(auto &x:v)std::cout << x << std::endl;
     Inputfile.close();
     return EXIT_SUCCESS;
 }
