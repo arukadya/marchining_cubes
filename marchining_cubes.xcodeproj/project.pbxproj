@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		679541AA29B2F6A200DCDFAC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 679541A929B2F6A200DCDFAC /* main.cpp */; };
+		679541B229B2FA8D00DCDFAC /* marching_cubes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 679541B029B2FA8D00DCDFAC /* marching_cubes.cpp */; };
+		679541B529B2FAE200DCDFAC /* ioVTK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 679541B329B2FAE200DCDFAC /* ioVTK.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		679541A629B2F6A200DCDFAC /* marchining_cubes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = marchining_cubes; sourceTree = BUILT_PRODUCTS_DIR; };
 		679541A929B2F6A200DCDFAC /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		679541B029B2FA8D00DCDFAC /* marching_cubes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = marching_cubes.cpp; sourceTree = "<group>"; };
+		679541B129B2FA8D00DCDFAC /* marching_cubes.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = marching_cubes.hpp; sourceTree = "<group>"; };
+		679541B329B2FAE200DCDFAC /* ioVTK.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ioVTK.cpp; sourceTree = "<group>"; };
+		679541B429B2FAE200DCDFAC /* ioVTK.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ioVTK.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				679541A929B2F6A200DCDFAC /* main.cpp */,
+				679541B029B2FA8D00DCDFAC /* marching_cubes.cpp */,
+				679541B129B2FA8D00DCDFAC /* marching_cubes.hpp */,
+				679541B329B2FAE200DCDFAC /* ioVTK.cpp */,
+				679541B429B2FAE200DCDFAC /* ioVTK.hpp */,
 			);
 			path = marchining_cubes;
 			sourceTree = "<group>";
@@ -120,6 +130,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				679541AA29B2F6A200DCDFAC /* main.cpp in Sources */,
+				679541B229B2FA8D00DCDFAC /* marching_cubes.cpp in Sources */,
+				679541B529B2FAE200DCDFAC /* ioVTK.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +144,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -176,6 +188,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/lib/eigen-3.4.0\"";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -190,7 +203,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -228,6 +241,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/lib/eigen-3.4.0\"";
 				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
