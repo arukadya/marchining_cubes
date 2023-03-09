@@ -6,17 +6,6 @@
 //
 
 #include "marching_cubes.hpp"
-//template <typename T>
-//void ImplicitFunction<T>::print_values(){
-//    for(int i=0;i<nx;++i){
-//        for(int j=0;j<ny;++j){
-//            for(int k=0;k<nz;++k){
-//                std::cout << values[i][j][k] << ",";
-//            }std::cout << std::endl;
-//        }std::cout << std::endl;
-//    }std::cout << std::endl;
-//}
-//テンプレートの重複宣言が優先されるので，テンプレートメンバ関数はヘッダファイルに実装をかく．
 int edgeTable[256]={
 0x0  , 0x109, 0x203, 0x30a, 0x406, 0x50f, 0x605, 0x70c,
 0x80c, 0x905, 0xa0f, 0xb06, 0xc0a, 0xd03, 0xe09, 0xf00,
@@ -343,20 +332,6 @@ std::vector<int> getKey(VertexID w_id0,VertexID w_id1, int size){
     return {x0*size*size + y0*size + z0, x1*size*size + y1*size + z1};
 }
 
-void addVertex(int l_x0ID, int l_x1ID, VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::unordered_map<std::vector<int>, int, ArrayHasher<2>> &map, int &vert_index){
-    VertexID w_x0ID = transIndexL2W(glidID, l_x0ID);
-    VertexID w_x1ID = transIndexL2W(glidID, l_x1ID);
-    int size = imp.nx*imp.ny*imp.nz;
-    std::vector<int> key = getKey(w_x0ID, w_x1ID, size);
-    if(map.find(key) == map.end()){
-        map.emplace(key,vert_index);
-        vert_index++;
-        Eigen::Vector3d px0 = getWorldPosition(w_x0ID, origin, dist);
-        Eigen::Vector3d px1 = getWorldPosition(w_x1ID, origin, dist);
-        Vertices.push_back(linearInterporation(threshold, px0, px1, imp.getValue(w_x0ID), imp.getValue(w_x1ID)));
-    }
-}
-
 Eigen::Vector3d getWorldPosition(VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist){
     auto [x,y,z] = glidID;
     Eigen::Vector3d pos = {(double)x*dist.x(),(double)y*dist.y(),(double)z*dist.z()};
@@ -417,6 +392,22 @@ std::pair<int,int> edge2Vertex(int edgeID){
     return {x0ID,x1ID};
 }
 
+
+
+void marching_cubes(std::vector<Eigen::Vector3d> &Vertices,std::vector<std::vector<int>> &Faces,Eigen::Vector3d origin,Eigen::Vector3d &dist,ImplicitFunction<double> &imp,double threshold){
+    //std::set<worldEdge> used_edge;
+    std::unordered_map<std::vector<int>, int, ArrayHasher<2>> map;
+    int vert_cnt = 0;
+    for(int i=0;i<imp.nx-1;++i){
+        for(int j=0;j<imp.ny-1;++j){
+            for(int k=0;k<imp.nz-1;++k){
+                VertexID glid_id = {i,j,k};
+                addTriangle(glid_id, origin, dist, threshold, imp, Vertices, Faces, map, vert_cnt);
+            }
+        }
+    }
+}
+
 void addTriangle(VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::vector<std::vector<int>> &Faces,std::unordered_map<std::vector<int>, int, ArrayHasher<2>> &map, int &vert_index){
     auto [x,y,z] = glidID;
     int vert_table =  getVertexTable(glidID, imp, threshold);
@@ -448,17 +439,17 @@ void addTriangle(VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, 
     }
 }
 
-void marching_cubes(std::vector<Eigen::Vector3d> &Vertices,std::vector<std::vector<int>> &Faces,Eigen::Vector3d origin,Eigen::Vector3d &dist,ImplicitFunction<double> &imp,double threshold){
-    //std::set<worldEdge> used_edge;
-    std::unordered_map<std::vector<int>, int, ArrayHasher<2>> map;
-    int vert_cnt = 0;
-    for(int i=0;i<imp.nx-1;++i){
-        for(int j=0;j<imp.ny-1;++j){
-            for(int k=0;k<imp.nz-1;++k){
-                VertexID glid_id = {i,j,k};
-                addTriangle(glid_id, origin, dist, threshold, imp, Vertices, Faces, map, vert_cnt);
-            }
-        }
+void addVertex(int l_x0ID, int l_x1ID, VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::unordered_map<std::vector<int>, int, ArrayHasher<2>> &map, int &vert_index){
+    VertexID w_x0ID = transIndexL2W(glidID, l_x0ID);
+    VertexID w_x1ID = transIndexL2W(glidID, l_x1ID);
+    int size = imp.nx*imp.ny*imp.nz;
+    std::vector<int> key = getKey(w_x0ID, w_x1ID, size);
+    if(map.find(key) == map.end()){
+        map.emplace(key,vert_index);
+        vert_index++;
+        Eigen::Vector3d px0 = getWorldPosition(w_x0ID, origin, dist);
+        Eigen::Vector3d px1 = getWorldPosition(w_x1ID, origin, dist);
+        Vertices.push_back(linearInterporation(threshold, px0, px1, imp.getValue(w_x0ID), imp.getValue(w_x1ID)));
     }
 }
 
@@ -470,6 +461,7 @@ Eigen::Vector3d linearInterporation(double isoValue, Eigen::Vector3d x0, Eigen::
     double k = (isoValue - value0)/(value1 - value0);
     return x0 + k * (x1-x0);
 }
+
 void cubetest(VertexID id, ImplicitFunction<double> &implicitfunction){
     int bit = 1;
     std::cout << "vertex" << std::endl;

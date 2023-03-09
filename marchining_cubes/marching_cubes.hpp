@@ -51,7 +51,6 @@ struct ImplicitFunction{
                 }
             }
         }
-        std::cout << "through" << std::endl;
     }
     void print_values(){
         for(int i=0;i<nx;++i){
@@ -67,28 +66,26 @@ struct ImplicitFunction{
         return values[x][y][z];
     }
 };
-struct mesh{
-    std::vector<Eigen::Vector3d> Vertices;
-    std::vector<VertexID> Faces;
-};
-void addTriangle(VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::vector<std::vector<int>> &Faces,std::set<worldEdge> &used_edge);
 
-void addVertex(VertexID x0ID,VertexID x1ID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::set<worldEdge> &used_edge);
+void marching_cubes(std::vector<Eigen::Vector3d> &Vertices,std::vector<std::vector<int>> &Faces,Eigen::Vector3d origin,Eigen::Vector3d &dist,ImplicitFunction<double> &imp,double threshold);
 
-void edge2addVertex(int edgeID, VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::set<worldEdge> &used_edge);
+void addTriangle(VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::vector<std::vector<int>> &Faces,std::unordered_map<std::vector<int>, int, ArrayHasher<2>> &map, int &vert_index);
 
-int getVertexTable(VertexID v_id,ImplicitFunction<double> &implicitfunction,double threshold);
+void addVertex(int l_x0ID, int l_x1ID, VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist, double threshold, ImplicitFunction<double> &imp,  std::vector<Eigen::Vector3d> &Vertices, std::unordered_map<std::vector<int>, int, ArrayHasher<2>> &map, int &vert_index);
 
 Eigen::Vector3d linearInterporation(double isoValue,Eigen::Vector3d x0,Eigen::Vector3d x1,double value0,double value1);
 
+//変換する関数群
 Eigen::Vector3d getWorldPosition(VertexID glidID, Eigen::Vector3d origin, Eigen::Vector3d dist);
+
+int getVertexTable(VertexID v_id,ImplicitFunction<double> &implicitfunction,double threshold);
 
 int transIndexL2W(VertexID glidID, int localID, int nx, int ny, int nz);
 
 std::pair<int,int> edge2Vertex(int edgeID);
 
-void marching_cubes(std::vector<Eigen::Vector3d> &Vertices,std::vector<std::vector<int>> &Faces,Eigen::Vector3d origin,Eigen::Vector3d &dist,ImplicitFunction<double> &imp,double threshold);
-
+std::vector<int> getKey(VertexID w_id0,VertexID w_id1, int size);
+//テスト用
 void cubetest(VertexID id,ImplicitFunction<double> &implicitfunction);
 
 #endif /* marching_cubes_hpp */
