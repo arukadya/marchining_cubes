@@ -15,6 +15,6 @@
 #include <string>
 #include <math.h>
 #include <sstream>
-int inputVTK(int &num_cells,std::vector<int> &nums,std::vector<double> &dists,std::vector<double> &v,std::string InputFlieName);
-
+#include <Eigen/Core>
+int inputVTK(int &num_cells,std::vector<int> &nums,Eigen::Vector3d &dists,Eigen::Vector3d &origin,std::vector<double> &v,std::string InputFlieName);
 #endif /* ioVTK_hpp */

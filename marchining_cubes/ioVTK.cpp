@@ -6,8 +6,7 @@
 //
 
 #include "ioVTK.hpp"
-
-int inputVTK(int &num_cells,std::vector<int> &nums,std::vector<double> &dists,std::vector<double> &v,std::string InputFlieName){
+int inputVTK(int &num_cells,std::vector<int> &nums,Eigen::Vector3d &dists,Eigen::Vector3d &origin,std::vector<double> &v,std::string InputFlieName){
     std::ifstream Inputfile(InputFlieName);
     if (!Inputfile.is_open()) {
         std::cerr << "Could not open the file - '"
@@ -25,16 +24,25 @@ int inputVTK(int &num_cells,std::vector<int> &nums,std::vector<double> &dists,st
         getline(ss_nums,word,' ');
         nums.push_back(std::stoi(word));
     }
-    
-    std::getline(Inputfile,line);//ORIGIN無視
+    std::getline(Inputfile,line);
+    getline(ss_nums,word,' ');
+    double x = std::stod(word);
+    getline(ss_nums,word,' ');
+    double y = std::stod(word);
+    getline(ss_nums,word,' ');
+    double z = std::stod(word);
+    origin = {x,y,z};
     
     std::getline(Inputfile,line);
     std::stringstream ss_dists{line};
     getline(ss_dists,word,' ');
-    for(int i=0;i<3;++i){
-        getline(ss_dists,word,' ');
-        dists.push_back(std::stod(word));
-    }
+    getline(ss_dists,word,' ');
+    x = std::stod(word);
+    getline(ss_dists,word,' ');
+    y = std::stod(word);
+    getline(ss_dists,word,' ');
+    z = std::stod(word);
+    dists = {x,y,z};
     
     std::getline(Inputfile,line);
     std::stringstream ss_num{line};
